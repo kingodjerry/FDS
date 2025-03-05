@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="transaction-detail">
+    <h2 class="mb-4">거래 상세 정보</h2>
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>기본 정보</h5>
+                    <p><strong>거래 ID:</strong> {{ transaction.id }}</p>
+                    <p><strong>금액:</strong> {{ "{:,.0f}".format(transaction.amount) }}원</p>
+                    <p><strong>시간:</strong> {{ transaction.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                </div>
+                <div class="col-md-6">
+                    <h5>계좌 정보</h5>
+                    <p><strong>출발 계좌:</strong> {{ transaction.source_account }}</p>
+                    <p><strong>도착 계좌:</strong> {{ transaction.destination_account }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="risk-analysis">
+        <h3>위험도 분석</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="risk-factor">
+                    <h5>위험 점수</h5>
+                    <div class="progress mb-2">
+                        <div class="progress-bar bg-{{ 'danger' if transaction.risk_score >= 0.7 else 'warning' if transaction.risk_score >= 0.4 else 'success' }}"
+                             role="progressbar"
+                             style="width: {{ transaction.risk_score * 100 }}%"
+                             aria-valuenow="{{ transaction.risk_score * 100 }}"
+                             aria-valuemin="0"
+                             aria-valuemax="100">
+                            {{ "%.1f"|format(transaction.risk_score * 100) }}%
+                        </div>
+                    </div>
+                    <p>위험 수준: <span class="badge-risk {{ transaction.risk_level.lower() }}">{{ transaction.risk_level }}</span></p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="risk-factor">
+                    <h5>위험 요인 분석</h5>
+                    <ul>
+                        {% if transaction.amount > 10000000 %}
+                        <li>고액 거래 (1천만원 초과)</li>
+                        {% elif transaction.amount > 5000000 %}
+                        <li>중액 거래 (500만원 초과)</li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="/" class="btn btn-secondary">
+            <i class="fa fa-arrow-left"></i> 대시보드로 돌아가기
+        </a>
+    </div>
+</div>
+{% endblock %}

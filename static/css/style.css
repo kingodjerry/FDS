@@ -25,6 +25,7 @@ body {
 .card {
     background-color: var(--bg-primary);
     border-color: var(--border-color);
+    cursor: pointer;
 }
 
 .card-title {
@@ -39,10 +40,6 @@ body {
 .table thead th {
     background-color: var(--bg-secondary);
     border-color: var(--border-color);
-}
-
-.table-hover tbody tr:hover {
-    background-color: var(--bg-secondary);
 }
 
 /* 위험도 배지 */
@@ -85,4 +82,25 @@ body {
 
 .card:hover {
     transform: translateY(-5px);
+}
+
+/* 상세 페이지 스타일 */
+.transaction-detail {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+}
+
+.risk-analysis {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    background-color: var(--bg-secondary);
+}
+
+.risk-factor {
+    margin: 1rem 0;
+    padding: 1rem;
+    border-radius: 0.25rem;
+    background-color: var(--bg-primary);
 }

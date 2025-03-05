@@ -96,6 +96,12 @@ def get_statistics():
         }
     })
 
+@app.route('/transaction/<int:transaction_id>')
+def transaction_detail(transaction_id):
+    from models import Transaction
+    transaction = Transaction.query.get_or_404(transaction_id)
+    return render_template('transaction_detail.html', transaction=transaction)
+
 with app.app_context():
     import models
     db.create_all()

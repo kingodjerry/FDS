@@ -6,6 +6,16 @@ document.getElementById('theme-toggle').addEventListener('click', function() {
     body.setAttribute('data-theme', newTheme);
 });
 
+// 카드 클릭 이벤트
+document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', function() {
+        const transactionId = this.getAttribute('data-transaction-id');
+        if (transactionId) {
+            window.location.href = `/transaction/${transactionId}`;
+        }
+    });
+});
+
 // 데이터 새로고침
 function refreshData() {
     fetchTransactions();
@@ -56,10 +66,23 @@ function updateTransactionTable(transactions) {
 
 // 통계 업데이트
 function updateStatistics(stats) {
-    document.getElementById('total-transactions').textContent = stats.total_transactions.toLocaleString();
-    document.getElementById('high-risk-transactions').textContent = stats.risk_distribution.high.toLocaleString();
-    document.getElementById('medium-risk-transactions').textContent = stats.risk_distribution.medium.toLocaleString();
-    document.getElementById('low-risk-transactions').textContent = stats.risk_distribution.low.toLocaleString();
+    const cards = [
+        { id: 'total-transactions', value: stats.total_transactions },
+        { id: 'high-risk-transactions', value: stats.risk_distribution.high },
+        { id: 'medium-risk-transactions', value: stats.risk_distribution.medium },
+        { id: 'low-risk-transactions', value: stats.risk_distribution.low }
+    ];
+
+    cards.forEach(card => {
+        const element = document.getElementById(card.id);
+        if (element) {
+            const cardElement = element.closest('.card');
+            if (cardElement) {
+                cardElement.setAttribute('data-transaction-id', card.value > 0 ? card.value : '');
+            }
+            element.textContent = card.value.toLocaleString();
+        }
+    });
 }
 
 // CSV 파일 업로드
@@ -75,7 +98,7 @@ document.getElementById('csv-upload').addEventListener('change', async function(
             method: 'POST',
             body: formData
         });
-        
+
         const result = await response.json();
         if (response.ok) {
             alert('거래 데이터가 성공적으로 업로드되었습니다.');
