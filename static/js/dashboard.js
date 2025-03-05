@@ -63,8 +63,8 @@ function updateTransactionTable(transactions) {
         const row = document.createElement('tr');
         row.innerHTML = `
             <td>${new Date(t.timestamp).toLocaleString()}</td>
-            <td>${t.source}</td>
-            <td>${t.destination}</td>
+            <td>${t.source_account}</td>
+            <td>${t.destination_account}</td>
             <td>${t.amount.toLocaleString()}원</td>
             <td>${(t.risk_score * 100).toFixed(1)}%</td>
             <td><span class="badge-risk ${t.risk_level.toLowerCase()}">${t.risk_level}</span></td>
@@ -123,6 +123,3 @@ document.addEventListener('DOMContentLoaded', function() {
     // 30초마다 자동 새로고침
     setInterval(refreshData, 30000);
 });
-```
-<replit_final_file>
-```javascript

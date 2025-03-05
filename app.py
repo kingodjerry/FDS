@@ -38,8 +38,8 @@ def get_transactions():
         'id': t.id,
         'amount': t.amount,
         'timestamp': t.timestamp.isoformat(),
-        'source': t.source_account,
-        'destination': t.destination_account,
+        'source_account': t.source_account,
+        'destination_account': t.destination_account,
         'risk_score': t.risk_score,
         'risk_level': t.risk_level
     } for t in transactions])
