@@ -117,10 +117,13 @@ def risk_level_transactions(risk_level):
     if risk_level.lower() not in level_mapping:
         return "Invalid risk level", 400
 
-    # 해당 위험도의 거래 목록 조회
+    # 해당 위험도의 거래 목록 조회 (위험도 점수 내림차순, 시간 내림차순 정렬)
     transactions = Transaction.query.filter_by(
         risk_level=level_mapping[risk_level.lower()]
-    ).order_by(Transaction.timestamp.desc()).all()
+    ).order_by(
+        Transaction.risk_score.desc(),
+        Transaction.timestamp.desc()
+    ).all()
 
     return render_template(
         'risk_level_transactions.html',
