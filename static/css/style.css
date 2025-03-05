@@ -26,6 +26,11 @@ body {
     background-color: var(--bg-primary);
     border-color: var(--border-color);
     cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
 }
 
 .card-title {
@@ -73,15 +78,6 @@ body {
     .dashboard-container {
         padding: 0.5rem;
     }
-}
-
-/* 카드 애니메이션 */
-.card {
-    transition: transform 0.2s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
 }
 
 /* 상세 페이지 스타일 */
