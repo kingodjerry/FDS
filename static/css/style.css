@@ -1,0 +1,88 @@
+/* 테마 변수 */
+:root {
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8f9fa;
+    --text-primary: #212529;
+    --text-secondary: #6c757d;
+    --border-color: #dee2e6;
+}
+
+[data-theme="dark"] {
+    --bg-primary: #212529;
+    --bg-secondary: #343a40;
+    --text-primary: #f8f9fa;
+    --text-secondary: #adb5bd;
+    --border-color: #495057;
+}
+
+/* 기본 스타일 */
+body {
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.card {
+    background-color: var(--bg-primary);
+    border-color: var(--border-color);
+}
+
+.card-title {
+    color: var(--text-primary);
+}
+
+/* 테이블 스타일 */
+.table {
+    color: var(--text-primary);
+}
+
+.table thead th {
+    background-color: var(--bg-secondary);
+    border-color: var(--border-color);
+}
+
+.table-hover tbody tr:hover {
+    background-color: var(--bg-secondary);
+}
+
+/* 위험도 배지 */
+.badge-risk {
+    padding: 0.5em 1em;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.badge-risk.high {
+    background-color: #dc3545;
+    color: white;
+}
+
+.badge-risk.medium {
+    background-color: #ffc107;
+    color: black;
+}
+
+.badge-risk.low {
+    background-color: #198754;
+    color: white;
+}
+
+/* 반응형 대시보드 */
+.dashboard-container {
+    padding: 1rem;
+}
+
+@media (max-width: 768px) {
+    .dashboard-container {
+        padding: 0.5rem;
+    }
+}
+
+/* 카드 애니메이션 */
+.card {
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
