@@ -7,11 +7,20 @@ document.getElementById('theme-toggle').addEventListener('click', function() {
 });
 
 // 카드 클릭 이벤트
+const riskLevelMap = {
+    'high-risk-transactions': 'high',
+    'medium-risk-transactions': 'medium',
+    'low-risk-transactions': 'low'
+};
+
 document.querySelectorAll('.card').forEach(card => {
     card.addEventListener('click', function() {
-        const transactionId = this.getAttribute('data-transaction-id');
-        if (transactionId) {
-            window.location.href = `/transaction/${transactionId}`;
+        const titleElement = this.querySelector('.card-title');
+        if (!titleElement) return;
+
+        const cardId = this.querySelector('h2')?.id;
+        if (cardId && riskLevelMap[cardId]) {
+            window.location.href = `/transactions/risk_level/${riskLevelMap[cardId]}`;
         }
     });
 });
@@ -76,10 +85,6 @@ function updateStatistics(stats) {
     cards.forEach(card => {
         const element = document.getElementById(card.id);
         if (element) {
-            const cardElement = element.closest('.card');
-            if (cardElement) {
-                cardElement.setAttribute('data-transaction-id', card.value > 0 ? card.value : '');
-            }
             element.textContent = card.value.toLocaleString();
         }
     });
@@ -118,3 +123,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // 30초마다 자동 새로고침
     setInterval(refreshData, 30000);
 });
+```
+<replit_final_file>
+```javascript

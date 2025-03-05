@@ -102,6 +102,32 @@ def transaction_detail(transaction_id):
     transaction = Transaction.query.get_or_404(transaction_id)
     return render_template('transaction_detail.html', transaction=transaction)
 
+@app.route('/transactions/risk_level/<risk_level>')
+def risk_level_transactions(risk_level):
+    from models import Transaction
+
+    # 위험도 레벨 매핑
+    level_mapping = {
+        'high': 'HIGH',
+        'medium': 'MEDIUM',
+        'low': 'LOW'
+    }
+
+    # URL 파라미터 검증
+    if risk_level.lower() not in level_mapping:
+        return "Invalid risk level", 400
+
+    # 해당 위험도의 거래 목록 조회
+    transactions = Transaction.query.filter_by(
+        risk_level=level_mapping[risk_level.lower()]
+    ).order_by(Transaction.timestamp.desc()).all()
+
+    return render_template(
+        'risk_level_transactions.html',
+        transactions=transactions,
+        risk_level=level_mapping[risk_level.lower()]
+    )
+
 with app.app_context():
     import models
     db.create_all()

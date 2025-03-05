@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>{{ risk_level }} 위험 거래 목록</h2>
+        <a href="/" class="btn btn-secondary">
+            <i class="fa fa-arrow-left"></i> 대시보드로 돌아가기
+        </a>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>시간</th>
+                            <th>출발 계좌</th>
+                            <th>도착 계좌</th>
+                            <th>금액</th>
+                            <th>위험도</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for transaction in transactions %}
+                        <tr>
+                            <td>{{ transaction.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</td>
+                            <td>{{ transaction.source_account }}</td>
+                            <td>{{ transaction.destination_account }}</td>
+                            <td>{{ "{:,.0f}".format(transaction.amount) }}원</td>
+                            <td>
+                                <div class="progress" style="height: 20px;">
+                                    <div class="progress-bar bg-{{ 'danger' if transaction.risk_score >= 0.7 else 'warning' if transaction.risk_score >= 0.4 else 'success' }}"
+                                         role="progressbar"
+                                         style="width: {{ transaction.risk_score * 100 }}%"
+                                         aria-valuenow="{{ transaction.risk_score * 100 }}"
+                                         aria-valuemin="0"
+                                         aria-valuemax="100">
+                                        {{ "%.1f"|format(transaction.risk_score * 100) }}%
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
